@@ -15,7 +15,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           component: true
-          command-prefix: yarn percy exec --
+          command-prefix: "@percy/cli exec -- "
           browser: chrome
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
