@@ -17,7 +17,21 @@ const config: Configuration = {
       },
       {
         test: /\.css$/,
+        exclude: /module\.\w+\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
+      },
+      {
+        test: /module\.\w+\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+            },
+          },
+          "postcss-loader",
+        ],
       },
     ],
   },
