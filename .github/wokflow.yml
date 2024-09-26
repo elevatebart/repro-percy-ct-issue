@@ -1,0 +1,22 @@
+name: Test
+
+on: [push]
+
+jobs:
+  component:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Cypress run CT
+        uses: cypress-io/github-action@v6
+        with:
+          component: true
+          command-prefix: yarn percy exec --
+          browser: chrome
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+          PERCY_BRANCH: ${{ inputs.ref }}
