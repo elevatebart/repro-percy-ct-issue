@@ -1,6 +1,7 @@
 import path from "path";
 import { Configuration } from "webpack";
 import CopyWebpackPlugin from "copy-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 const config: Configuration = {
   mode:
@@ -16,7 +17,7 @@ const config: Configuration = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
     ],
   },
@@ -28,8 +29,15 @@ const config: Configuration = {
     path: path.resolve(__dirname, "dist"),
   },
   plugins: [
-    new CopyWebpackPlugin({
-      patterns: [{ from: "public" }],
+    ...(process.env.NODE_ENV === "prdocution"
+      ? [
+          new CopyWebpackPlugin({
+            patterns: [{ from: "public" }],
+          }),
+        ]
+      : []),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
     }),
   ],
 };
